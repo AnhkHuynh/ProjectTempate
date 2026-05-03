@@ -2,15 +2,15 @@
 
 # Project Title
 
-* **One Sentence Summary** Ex: This repository holds an attempt to apply LSTMs to Stock Market using data from
-"Get Rich" Kaggle challenge (provide link). 
+* **One Sentence Summary**: This repository applies machine learning models to classify mushrooms as edible or poisonous using the Kaggle Mushroom Classification dataset.
+* https://www.kaggle.com/datasets/uciml/mushroom-classification
 
 ## Overview
 
 * This section could contain a short paragraph which include the following:
   * **Definition of the tasks / challenge**  Ex: The task, as defined by the Kaggle challenge is to use a time series of 12 features, sampled daily for 1 month, to predict the next day's price of a stock.
-  * **Your approach** Ex: The approach in this repository formulates the problem as regression task, using deep recurrent neural networks as the model with the full time series of features as input. We compared the performance of 3 different network architectures.
-  * **Summary of the performance achieved** Ex: Our best model was able to predict the next day stock price within 23%, 90% of the time. At the time of writing, the best performance on Kaggle of this metric is 18%.
+  * **Your approach** Ex: The approach taken in this project includes: Cleaning and preprocessing categorical data, performing exploratory data analysis (EDA), training machine learning models including Logistic Regression and Decision Tree.
+  * **Summary of the performance achieved** Ex: Both models achieved 100% validation accuracy, indicating that the dataset contains strong patterns that clearly separate edible and poisonous mushrooms.
 
 ## Summary of Workdone
 
@@ -19,100 +19,119 @@ Include only the sections that are relevant an appropriate.
 ### Data
 
 * Data:
-  * Type: For example
-    * Input: medical images (1000x1000 pixel jpegs), CSV file: image filename -> diagnosis
-    * Input: CSV file of features, output: signal/background flag in 1st column.
-  * Size: How much data?
-  * Instances (Train, Test, Validation Split): how many data points? Ex: 1000 patients for training, 200 for testing, none for validation
+  * Type:         Input: CSV file containing categorical mushroom features (cap shape, odor, gill color, etc.)
+    * Output: Binary classification label (0 = edible, 1 = poisonous)
+  * Size: 8,124 samples, 23 features
+  * Instances (Train, Test, Validation Split): how many data points? Ex:         Training: 5,686 samples (70%)
+    * Validation: 1,219 samples (15%)
+    * Test: 1,219 samples (15%)
 
 #### Preprocessing / Clean up
 
-* Describe any manipulations you performed to the data.
-
+*  Replaced "?" values in the stalk-root column with "missing"
+* Converted all categorical features into numerical format using one-hot encoding (pd.get_dummies)
+* Verified that there are no missing values in the dataset
 #### Data Visualization
 
 Show a few visualization of the data and say a few words about what you see.
+
+* Created bar charts comparing feature categories against mushroom class
+* Observed strong relationships between features and class
+* Features like odor were highly predictive of whether a mushroom is poisonous or edible
 
 ### Problem Formulation
 
 * Define:
   * Input / Output
+  * * Input: Encoded mushroom features
+* Output: Binary label (0 = edible, 1 = poisonous)
+  
   * Models
     * Describe the different models you tried and why.
+     Logistic Regression (baseline model)
+  Decision Tree Classifier
   * Loss, Optimizer, other Hyperparameters.
-
+ Accuracy
+ Log Loss
 ### Training
 
 * Describe the training:
-  * How you trained: software and hardware.
-  * How did training take.
-  * Training curves (loss vs epoch for test/train).
-  * How did you decide to stop training.
-  * Any difficulties? How did you resolve them?
+ * Models were trained using scikit-learn
+* Training performed on a local machine (CPU)
+* Logistic Regression used max_iter=1000 to ensure convergence
+* Dataset required minimal preprocessing due to its clean structure
+* No major training difficulties encountered
 
 ### Performance Comparison
 
 * Clearly define the key performance metric(s).
 * Show/compare results in one table.
-* Show one (or few) visualization(s) of results, for example ROC curves.
+* Logistic Regression Log Loss: 0.0064
+
+Both models achieved perfect accuracy, showing that the dataset is highly separable.
 
 ### Conclusions
 
-* State any conclusions you can infer from your work. Example: LSTM work better than GRU.
+* The dataset contains strong predictive features that clearly distinguish edible and poisonous mushrooms
+* Both models performed perfectly, indicating the problem is easy to classify
+* Features such as odor play a major role in classification
 
 ### Future Work
 
-* What would be the next thing that you would try.
-* What are some other studies that can be done starting from here.
-
+* Try more advanced models (Random Forest, SVM, Gradient Boosting)
+* Perform feature importance analysis
+* Test the model on new or real-world datasets
+* Reduce features to evaluate model robustness
 ## How to reproduce results
 
 * In this section, provide instructions at least one of the following:
-   * Reproduce your results fully, including training.
-   * Apply this package to other data. For example, how to use the model you trained.
-   * Use this package to perform their own study.
-* Also describe what resources to use for this package, if appropirate. For example, point them to Collab and TPUs.
+   git clone https://github.com/yourusername/mushroom-classification.git
+cd mushroom-classification
+   pip install pandas numpy scikit-learn matplotlib
+  Run notebook
+
+Open the .ipynb file in Jupyter Notebook or Google Colab and run all cells.
 
 ### Overview of files in repository
 
-* Describe the directory structure, if any.
-* List all relavent files and describe their role in the package.
-* An example:
-  * utils.py: various functions that are used in cleaning and visualizing data.
-  * preprocess.ipynb: Takes input data in CSV and writes out data frame after cleanup.
-  * visualization.ipynb: Creates various visualizations of the data.
-  * models.py: Contains functions that build the various models.
-  * training-model-1.ipynb: Trains the first model and saves model during training.
-  * training-model-2.ipynb: Trains the second model and saves model during training.
-  * training-model-3.ipynb: Trains the third model and saves model during training.
-  * performance.ipynb: loads multiple trained models and compares results.
-  * inference.ipynb: loads a trained model and applies it to test data to create kaggle submission.
+* mushroom_classification.ipynb → Main notebook (EDA, preprocessing, modeling, evaluation)
+* README.md → Project documentation
 
-* Note that all of these notebooks should contain enough text for someone to understand what is happening.
-
+  
 ### Software Setup
-* List all of the required packages.
-* If not standard, provide or point to instruction for installing the packages.
-* Describe how to install your package.
+Required packages:
+
+* pandas
+* numpy
+* scikit-learn
+* matplotlib
 
 ### Data
 
-* Point to where they can download the data.
-* Lead them through preprocessing steps, if necessary.
+Dataset available here:
+https://www.kaggle.com/datasets/uciml/mushroom-classification
+
+Download the dataset and place mushrooms.csv in the project directory before running the notebook.
 
 ### Training
 
-* Describe how to train the model
+Run all cells in the notebook to:
+
+* Load data
+* Preprocess features
+* Train models
+* Evaluate performance
 
 #### Performance Evaluation
 
-* Describe how to run the performance evaluation.
+* Accuracy is calculated using accuracy_score
+* Log loss is calculated using log_loss
+* Results are printed directly in the notebook
 
 
 ## Citations
 
-* Provide any references.
-
+* Kaggle Mushroom Classification Dataset
 
 
 
